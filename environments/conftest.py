@@ -1,4 +1,6 @@
 import pytest
+import time
+import random
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -29,3 +31,16 @@ def browser(request):
     yield browser
     print("\nquit browser..")
     browser.quit()
+
+@pytest.fixture(scope="function")
+def new_email():
+    email = str(time.time()) + "@fakemail.org"
+    yield email
+
+@pytest.fixture(scope="function")
+def new_password():
+    length = 9
+    password = list('1234567890abcdABCDQwErTyUiOpLkJhGfD')
+    random.shuffle(password)
+    password = ''.join([random.choice(password) for x in range(length)])
+    yield password
